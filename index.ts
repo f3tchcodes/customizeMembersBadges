@@ -46,7 +46,7 @@ export default definePlugin({
         {
             find: "pendingBadgeDisplayOrder",
             replacement: {
-                match: /\},\[\i,\i,\i,\i,\i,\i\]\);if\(0===(\i)\.length&&!(\i)\)return null;/,
+                match: /\},\[\i,\i,\i,\i,\i,\i\]\);if\(0===(\i)\.length&&!\i\)return null;/,
                 replace: "$&$1=$1.filter(e=>!$self.shouldHide(e.id));"
             }
         },
@@ -62,8 +62,8 @@ export default definePlugin({
         {
             find: "UserProfileBadgeListRows",
             replacement: {
-                match: /let (\i)=(\i)&&!(\i),(\i)=\1\?Math\.max\((\i)\.length-(\i)\.(\i),0\):0;return (\i)=\1\?\[\5\.slice\(0,\6\.\7\)\]/,
-                replace: "let $1=$2&&!$3&&$self.settings.store.badgeOverflowLimit,$4=$1?Math.max($5.length-$6.$7,0):0;return $8=$1?[$5.slice(0,$6.$7)]"
+                match: /let (\i)=(\i)&&!(\i),/,
+                replace: "let $1=$2&&!$3&&$self.settings.store.badgeOverflowLimit,"
             }
         }
     ],
