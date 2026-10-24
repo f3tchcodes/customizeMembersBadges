@@ -37,8 +37,8 @@ const settings = definePluginSettings({
 });
 
 export default definePlugin({
-    name: "HideMembersBadge",
-    description: "Customize visibility of other member's badges",
+    name: "CustomizeMembersBadge",
+    description: "Customize visibility of other member's badges.",
     authors: [Devs.f3tch],
     settings,
     patches: [

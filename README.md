@@ -1,2 +1,3 @@
-# hideMembersBadges
-Vencord plugin for hiding other members badges (new discord badges are too overwhelming).
+# CustomizeMembersBadges
+
+Vencord plugin for customizing the visibility of other member's badges (new discord badges are too overwhelming).
