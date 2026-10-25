@@ -37,7 +37,7 @@ const badgeIdConverterModule = mapMangledModuleLazy(
 // call the function, return undefined if running it causes an error
 const tryCall = <T,>(fn: Function, arg: unknown): T | undefined => { try { return fn(arg) as T; } catch { return undefined; } };
 
-// validate badge id converter functions
+// validate and return badge id converter functions
 function findBadgeIdConverter(): BadgeIdConverter | null {
     try {
         const { toBadgeId, toNumericId } = badgeIdConverterModule;
