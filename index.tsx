@@ -155,7 +155,7 @@ export default definePlugin({
         {
             find: "pendingBadgeDisplayOrder",
             replacement: {
-                match: /\},\[\i,\i,\i,\i,\i,\i\]\);if\(0===(\i)\.length&&!\i\)return null;/,
+                match: /if\(0===(\i)\.length&&!\i\)return null;/,
                 replace: "$&if(!$self.isCurrentUserProfile(arguments[0]?.displayProfile?.userId))$1=$1.filter(e=>!$self.shouldHide(e.id));"
             }
         },
