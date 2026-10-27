@@ -156,7 +156,14 @@ export default definePlugin({
             find: "pendingBadgeDisplayOrder",
             replacement: {
                 match: /\},\[\i,\i,\i,\i,\i,\i\]\);if\(0===(\i)\.length&&!\i\)return null;/,
-                replace: "$&if($self.isCurrentUserProfile(arguments[0]?.displayProfile?.userId))$1=$1.filter(e=>!$self.shouldHide(e.id));"
+                replace: "$&if(!$self.isCurrentUserProfile(arguments[0]?.displayProfile?.userId))$1=$1.filter(e=>!$self.shouldHide(e.id));"
+            }
+        },
+        {
+            find: "BadgeDirectorySeenStore",
+            replacement: {
+                match: /children:\s*(\i)\.map\(/,
+                replace: "children:$1.filter(e=>$self.isCurrentUserProfile(arguments[0]?.contextMenuAPIArguments?.[0]?.displayedUserId)||!$self.shouldHide(e.badge_id)).map("
             }
         },
         // update badge list component to setting changes
@@ -176,18 +183,18 @@ export default definePlugin({
             }
         }
     ],
-    shouldHide(badgeId: string) {
-        if (settings.store.badgeVisibility[badgeId] === false) return true;
+    shouldHide(badgeId: string | number) {
         const badgeIdConverter = getBadgeIdConverter();
-        if (badgeIdConverter == null) return false;
-        const numericId = badgeIdConverter.toNumericId(badgeId);
-        if (numericId == null) return false;
+        const numericId = typeof badgeId === "number" ? badgeId : badgeIdConverter?.toNumericId(badgeId);
+
+        if (numericId == null) return settings.store.badgeVisibility[badgeId] === false;
+
         return Object.entries(settings.store.badgeVisibility).some(([id, visible]) => {
             if (visible !== false) return false;
-            return badgeIdConverter.toNumericId(id) === numericId;
+            return id === String(badgeId) || badgeIdConverter?.toNumericId(id) === numericId;
         });
     },
     isCurrentUserProfile(userId?: string) {
-        return userId !== UserStore.getCurrentUser()?.id;
+        return userId === UserStore.getCurrentUser()?.id;
     }
 });
