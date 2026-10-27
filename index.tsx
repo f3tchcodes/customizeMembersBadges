@@ -9,7 +9,7 @@ import { FormSwitch } from "@components/FormSwitch";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { filters, mapMangledModuleLazy } from "@webpack";
-import { Constants, React, RestAPI } from "@webpack/common";
+import { Constants, React, RestAPI, UserStore } from "@webpack/common";
 
 // interfaces
 interface Badge {
@@ -156,7 +156,7 @@ export default definePlugin({
             find: "pendingBadgeDisplayOrder",
             replacement: {
                 match: /\},\[\i,\i,\i,\i,\i,\i\]\);if\(0===(\i)\.length&&!\i\)return null;/,
-                replace: "$&$1=$1.filter(e=>!$self.shouldHide(e.id));"
+                replace: "$&if($self.isCurrentUserProfile(arguments[0]?.displayProfile?.userId))$1=$1.filter(e=>!$self.shouldHide(e.id));"
             }
         },
         // update badge list component to setting changes
@@ -186,5 +186,8 @@ export default definePlugin({
             if (visible !== false) return false;
             return badgeIdConverter.toNumericId(id) === numericId;
         });
+    },
+    isCurrentUserProfile(userId?: string) {
+        return userId !== UserStore.getCurrentUser()?.id;
     }
 });
