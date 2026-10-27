@@ -159,6 +159,7 @@ export default definePlugin({
                 replace: "$&if(!$self.isCurrentUserProfile(arguments[0]?.displayProfile?.userId))$1=$1.filter(e=>!$self.shouldHide(e.id));"
             }
         },
+        // filtering badge when we press +n button on profile
         {
             find: "BadgeDirectorySeenStore",
             replacement: {
