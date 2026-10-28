@@ -167,6 +167,14 @@ export default definePlugin({
                 replace: "children:$1.filter(e=>$self.isCurrentUserProfile(arguments[0]?.contextMenuAPIArguments?.[0]?.displayedUserId)||!$self.shouldHide(e.badge_id)).map("
             }
         },
+        // correct badge on the right side of the badge list modal after pressing +n
+        {
+            find: 'location:"BadgeDirectoryModal"',
+            replacement: {
+                match: /\i\.useState\(\i\?\?null\),\i=\(0,\i\.\i\)\(\[\i\.\i],\(\)=>null!=\i\?\i\.\i\.getBadges\(\i\)/,
+                replace: "$&.filter(e=>$self.isCurrentUserProfile(arguments[0]?.targetUserId)||!$self.shouldHide(e.badge_id))"
+            }
+        },
         // update badge list component to setting changes
         {
             find: "UserProfileBadgeListRows",
